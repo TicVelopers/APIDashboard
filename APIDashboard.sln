@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIDashboard", "APIDashboard\APIDashboard.csproj", "{AD6974C9-A24A-40E4-9DAB-B79CCE34460F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD6974C9-A24A-40E4-9DAB-B79CCE34460F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD6974C9-A24A-40E4-9DAB-B79CCE34460F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD6974C9-A24A-40E4-9DAB-B79CCE34460F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD6974C9-A24A-40E4-9DAB-B79CCE34460F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEF69732-1EAD-4874-9AB0-4E886D68FA87}
+	EndGlobalSection
+EndGlobal
