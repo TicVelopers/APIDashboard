@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using APIDashboard.Models;
+using APIDashboard.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,6 +44,7 @@ namespace APIDashboard
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseApiKeyMiddleware();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -56,6 +58,28 @@ namespace APIDashboard
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+            //app.UseEndpoints(routes =>
+            //{
+            //    //This is the route mapping configuration passed to the endpoint resolver middleware
+            //    routes.MapControllers();
+            //});
+
+
+            //app.UseEndpoints(endpoints =>
+            //{
+
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller}/{action}/{id?}",
+            //        defaults: new { controller = "Home", action = "Index" });
+
+            //    app.UseApiKeyMiddleware();
+            //    endpoints.MapControllerRoute(
+            //        name: "api",
+            //        pattern: "Api/{controller}/{id?}");
+            //});
         }
     }
 }

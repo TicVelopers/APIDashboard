@@ -16,6 +16,7 @@ namespace APIDashboard.Models
         }
 
         public virtual DbSet<TdCombustibles> TdCombustibles { get; set; }
+        public virtual DbSet<TdUser> TdUser { get; set; }
         public virtual DbSet<TeamXam> TeamXam { get; set; }
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -58,6 +59,38 @@ namespace APIDashboard.Models
 
                 entity.Property(e => e.SemanaLabel)
                     .HasColumnName("SEMANA_LABEL")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TdUser>(entity =>
+            {
+                entity.ToTable("TD_USER");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ApiKey)
+                    .HasColumnName("API_KEY")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FullName)
+                    .HasColumnName("FULL_NAME")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("STATUS")
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserName)
+                    .HasColumnName("USER_NAME")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserPass)
+                    .HasColumnName("USER_PASS")
                     .HasMaxLength(250)
                     .IsUnicode(false);
             });
