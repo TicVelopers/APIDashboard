@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using APIDashboard.Models;
 using Microsoft.AspNetCore.Builder;
@@ -21,10 +22,11 @@ namespace APIDashboard.Middleware
         {
 
 
-            if (!httpContext.Request.Path.Value.Contains("api")) {
+            if (!httpContext.Request.Path.Value.Contains("/api/"))
+            {
                 await _next.Invoke(httpContext);
             }
-
+            var getKeys = httpContext.Request.Headers["API-KEY-USER"];
             if (!httpContext.Request.Headers.Keys.Contains("API-KEY-USER"))
             {
                 httpContext.Response.StatusCode = 400; //Bad Request                
@@ -43,12 +45,13 @@ namespace APIDashboard.Middleware
 
 
                 }
-
-
             }
 
+
             await _next.Invoke(httpContext);
+            
         }
+
     }
 
     // Extension method used to add the middleware to the HTTP request pipeline.
@@ -57,6 +60,7 @@ namespace APIDashboard.Middleware
         public static IApplicationBuilder UseApiKeyMiddleware(this IApplicationBuilder app)
         {
             app.UseMiddleware<ApiKeyMiddleware>();
+            
             return app;
         }
     }
