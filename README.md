@@ -20,11 +20,11 @@ Git clone https://github.com/TicVelopers/APIDashboard.git
 Git checkout branch -b <branch-name>
 ```
 
-Branch Name always must be like
+* Branch Name always must be like
 
 >develop/< owner-name >/< issue-reference >
 
-All branch must be related to an issue, please work a branch per issue
+* All branch must be related to an issue, please work a branch per issue
 
 * When update the Database, run this command line to re-create de context
 
