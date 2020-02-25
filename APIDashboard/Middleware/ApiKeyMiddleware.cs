@@ -21,18 +21,20 @@ namespace APIDashboard.Middleware
         public async Task Invoke(HttpContext httpContext, DBAPIFUELSContext db)
         {
 
-
-            if (!httpContext.Request.Path.Value.Contains("/api/"))
-            {
-                await _next.Invoke(httpContext);
-            }
-            var getKeys = httpContext.Request.Headers["API-KEY-USER"];
+            
             if (!httpContext.Request.Headers.Keys.Contains("API-KEY-USER"))
             {
-                httpContext.Response.StatusCode = 400; //Bad Request                
-                await httpContext.Response.WriteAsync("User Key is missing");
-                return;
-
+                if (!httpContext.Request.Path.Value.Contains("/api/"))
+                {
+                    httpContext.Response.StatusCode = 200;
+                    await _next.Invoke(httpContext);
+                }
+                else {
+                    httpContext.Response.StatusCode = 400; //Bad Request                
+                    await httpContext.Response.WriteAsync("User Key is missing");
+                    return;
+                }
+                
             }
             else
             {

@@ -74,6 +74,11 @@ namespace APIDashboard.Models
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Email)
+                    .HasColumnName("EMAIL")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.FullName)
                     .HasColumnName("FULL_NAME")
                     .HasMaxLength(250)
