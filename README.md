@@ -26,6 +26,14 @@ Branch Name always must be like
 
 All branch must be related to an issue, please work a branch per issue
 
+* When update the Database, run this command line to re-create de context
+
+```
+Scaffold-DbContext "<SQL Connection>" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force
+```
+
+* After re-create the context, delete o comment <b>OnConfiguring</b> on <b>DBAPIFUELSContext</b>, it will take the connection from <b>appsettings.json</b>
+
 ### Rules
 * Read the lastest Pull Request to know what changed, update your master branch and create you branch to work with
 * Never do a merge and commit to a Pull Request before write the documentation for been working for, This is good to let other knows how to continuous working
