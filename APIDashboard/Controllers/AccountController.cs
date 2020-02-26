@@ -35,25 +35,29 @@ namespace APIDashboard.Controllers
 
                     if (db.TdUser.Where(w=>w.UserName==UserData.UserName).Any()) {
 
-                        ViewBag.Error = "This User Already Exist, Please Try with another one";
-                        return View();
+                        //ViewBag.Error = "This User Already Exist, Please Try with another one";
+                        //return View();
+                        return Json(new { DataResult = new { icon = "error", text = "Este cliente ya existe en la base de datos", title = "Oops!" } });
                     }
                     else {
                         db.TdUser.Add(UserData);
                         db.SaveChanges();
-                        return RedirectToAction("Index", "Home");
+                        //return RedirectToAction("Index", "Home");
+                        return Json(new { DataResult = new { icon = "success", text = "Este cliente fue agregado exitosamente", title = "Agregado" }, state = 200 });
                     }
 
                     
                 }
                 catch(Exception e) {
-                    ViewBag.Error = e.ToString();
-                    return View();
+                    //ViewBag.Error = e.ToString();
+                    //return View();
+                    return Json(new { DataResult = new { icon = "error", text = "Algo anduvo mal creando el usuario, favor revisar los datos y tratar nuevamente", title = "Oops!" } });
                 }
             }
             else {
-                ViewBag.Error = "Something Went Wrong!!!";
-                return View();
+                //ViewBag.Error = "Something Went Wrong!!!";
+                //return View();
+                return Json(new { DataResult = new { icon = "error", text = "Algo anduvo mal creando el usuario, favor revisar los datos y tratar nuevamente", title = "Oops!" } });
             }
             
         }
