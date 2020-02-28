@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using APIDashboard.Models;
+using APIDashboard.Attributes;
 
 namespace APIDashboard.Controllers
 {
+    //[RolesAuth(Roles = "Admin")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
