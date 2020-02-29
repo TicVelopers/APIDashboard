@@ -108,7 +108,7 @@
 					<div class="row">
 						<div class="col-md-4 col-md-push-8 animate-box">
 							<h2>Contact Information</h2>
-							<div class="row">
+							<!--<div class="row">
 								<div class="col-md-12">
 									<div class="contact-info-wrap-flex">
 										<div class="con-info">
@@ -125,8 +125,8 @@
 										</div>
 									</div>
 								</div>
-							</div>
-							<!--<form action="Account/SignIn" method="post" name="SignUpForm" id="SignInForm">
+							</div>-->
+							<form action="Account/LogIn" method="post" name="LogInForm" id="LogInForm">
 								<div class="row form-group">
 									<div class="col-md-12">
 										
@@ -144,7 +144,7 @@
 								<div class="form-group">
 									<input type="submit" value="Sign In" class="btn btn-primary">
 								</div>
-							</form>-->
+							</form>
 						</div>
 						<div class="col-md-8 col-md-pull-4 animate-box">
 							<h2>Sign Up Form</h2>
@@ -350,6 +350,51 @@
                 //}
             });
 
+
+
+
+
+			 $("#LogInForm").submit(function (e) {
+                e.preventDefault();
+                //var validationResponse = $('#FormClientes').valid();
+                //if (validationResponse) {
+                    Swal.fire({
+                        title: "Cargando...",
+                        text: "Guardando Cliente",
+                        onBeforeOpen: () => {
+                            Swal.showLoading()
+                        }
+                    });
+                    var ipAPI = this.action;
+                    var data = $(this).serialize();
+                    
+                    fetch(ipAPI, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Accept': 'application/json'
+                        },
+                        body: data
+                    })
+                    .then(function (response) {
+                        if (response.status == 200) {
+                            return response.json();
+                        } else {
+                            //console.log("carga");
+                            Swal.fire(dataResult.DataResult)
+                        }
+                    })
+                    .then(function (dataResult) {
+                        if (dataResult.state == 200) {
+                            window.location = "Home";
+                        } else {
+                            Swal.fire(dataResult.DataResult)
+                        }
+                        //console.log(dataResult);
+                    });
+                //} else {
+                //}
+            });
 
 		</script>
 

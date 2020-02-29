@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace APIDashboard
 {
@@ -32,6 +33,8 @@ namespace APIDashboard
             services.AddDbContext<DBAPIFUELSContext>(c=>c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,9 +63,14 @@ namespace APIDashboard
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseApiKeyMiddleware();
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //    endpoints.MapRazorPages();
+            //});
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
