@@ -106,83 +106,97 @@
 			<div id="colorlib-contact">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-4 col-md-push-8 animate-box">
-							<h2>Contact Information</h2>
-							<!--<div class="row">
-								<div class="col-md-12">
-									<div class="contact-info-wrap-flex">
-										<div class="con-info">
-											<p><span><i class="icon-location-2"></i></span> 198 West 21th Street, <br> Suite 721 New York NY 10016</p>
-										</div>
-										<div class="con-info">
-											<p><span><i class="icon-phone3"></i></span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
-										</div>
-										<div class="con-info">
-											<p><span><i class="icon-paperplane"></i></span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
-										</div>
-										<div class="con-info">
-											<p><span><i class="icon-globe"></i></span> <a href="#">yourwebsite.com</a></p>
+						<!--<div class="col-md-4 col-md-push-8 animate-box">
+							
+						</div>-->
+						<!--<div class="col-md-12 col-md-pull-4 animate-box">-->
+						<div class="col-md-12 animate-box">
+							<!--Begining of Tab Panel-->
+							<ul class="nav nav-tabs nav-justified">
+								<li class="active"><a data-toggle="tab" href="#home">Register</a></li>
+								<li><a data-toggle="tab" href="#menu1">Login</a></li>
+							</ul>
+
+							<div class="tab-content">
+								<div id="home" class="tab-pane fade in active">
+									<div class="container">
+											<br />
+											<h2 class="text-center">Sign Up</h2>
+											<div class="col-md-6 col-md-offset-3">
+												<form action="Account/SignUp" method="post" name="SignUpForm" id="SignUpForm">
+													<div class="row form-group">
+														<div class="col-md-12">
+															<!-- <label for="fname">First Name</label> -->
+															<input type="text" id="UserName" name="UserName" class="form-control" placeholder="User Name">
+
+														</div>
+													</div>
+
+													<div class="row form-group">
+														<div class="col-md-12">
+															<!-- <label for="email">Email</label> -->
+															<input type="text" id="Email" name="Email" class="form-control" placeholder="Your email address">
+														</div>
+													</div>
+
+													<div class="row form-group">
+														<div class="col-md-12">
+															<!-- <label for="subject">Subject</label> -->
+															<input type="password" id="UserPass" name="UserPass" class="form-control" placeholder="Password">
+														</div>
+													</div>
+
+													<div class="row form-group">
+														<div class="col-md-12">
+															<!-- <label for="message">Message</label> -->
+															<input type="text" id="FullName" name="FullName" class="form-control" placeholder="Full Name">
+														</div>
+													</div>
+													<div class="form-group">
+														<input type="submit" value="Sign Up Now" class="btn btn-block btn-lg btn-primary">
+													</div>
+												</form>
+											</div>
 										</div>
 									</div>
-								</div>
-							</div>-->
-							<form action="Account/LogIn" method="post" name="LogInForm" id="LogInForm">
-								<div class="row form-group">
-									<div class="col-md-12">
+								<div id="menu1" class="tab-pane fade">
+									<div class="container">
+										<br />
+										<h2 class="text-center">Has already an Account? Sign in!</h2>
+										<div class="row">
+											<div class="col-md-6 col-md-offset-3">
+												<form action="Account/LogIn" method="post" name="LogInForm" id="LogInForm">
+													<div class="row form-group">
+														<div class="col-md-12">
+
+															<input type="text" id="UserName" name="UserName" class="form-control" placeholder="User Name">
+
+														</div>
+													</div>
+
+													<div class="row form-group">
+														<div class="col-md-12">
+
+															<input type="password" id="UserPass" name="UserPass" class="form-control" placeholder="Password">
+														</div>
+													</div>
+													
+
+													<div class="form-group">
+														<input type="submit" value="Sign In" class="btn btn-block btn-lg btn-primary">
+													</div>
+												</form>
+											</div>
+										</div>
 										
-										<input type="text" id="UserName" name="UserName" class="form-control" placeholder="User Name">
-
 									</div>
 								</div>
+							</div>
 
-								<div class="row form-group">
-									<div class="col-md-12">
-										
-										<input type="password" id="UserPass" name="UserPass" class="form-control" placeholder="Password">
-									</div>
-								</div>
-								<div class="form-group">
-									<input type="submit" value="Sign In" class="btn btn-primary">
-								</div>
-							</form>
+							<!--End of Tab Panel-->
+							
 						</div>
-						<div class="col-md-8 col-md-pull-4 animate-box">
-							<h2>Sign Up Form</h2>
-							<form action="Account/SignUp" method="post" name="SignUpForm" id="SignUpForm">
-								<div class="row form-group">
-									<div class="col-md-12">
-										<!-- <label for="fname">First Name</label> -->
-										<input type="text" id="UserName" name="UserName" class="form-control" placeholder="User Name">
-
-									</div>
-								</div>
-
-								<div class="row form-group">
-									<div class="col-md-12">
-										<!-- <label for="email">Email</label> -->
-										<input type="text" id="Email" name="Email" class="form-control" placeholder="Your email address">
-									</div>
-								</div>
-
-								<div class="row form-group">
-									<div class="col-md-12">
-										<!-- <label for="subject">Subject</label> -->
-										<input type="password" id="UserPass" name="UserPass" class="form-control" placeholder="Password">
-									</div>
-								</div>
-
-								<div class="row form-group">
-									<div class="col-md-12">
-										<!-- <label for="message">Message</label> -->
-										<input type="text" id="FullName" name="FullName" class="form-control" placeholder="Full Name">
-									</div>
-								</div>
-								<div class="form-group">
-									<input type="submit" value="Sign Up" class="btn btn-primary">
-								</div>
-							</form>
 						</div>
-					</div>
 				</div>
 			</div>
 
