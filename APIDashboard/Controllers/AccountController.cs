@@ -30,7 +30,7 @@ namespace APIDashboard.Controllers
             return View();
         }
 
-        [HttpPost("/Account/SignUp")]
+        [HttpPost]
         public IActionResult SignUp(TdUser UserData)
         {
             if (ModelState.IsValid)
@@ -39,33 +39,39 @@ namespace APIDashboard.Controllers
 
                     if (db.TdUser.Where(w=>w.UserName==UserData.UserName).Any()) {
 
-                        //ViewBag.Error = "This User Already Exist, Please Try with another one";
-                        //return View();
-                        return Json(new { DataResult = new { icon = "error", text = "Este cliente ya existe en la base de datos", title = "Oops!" } });
+                       
+                        return Json(new { DataResult = new { icon = "error", text = "This User Already exist", title = "Oops!" } });
                     }
                     else {
+                        UserData.Status = "A";
+                        
                         db.TdUser.Add(UserData);
                         db.SaveChanges();
-                        //return RedirectToAction("Index", "Home");
-                        return Json(new { DataResult = new { icon = "success", text = "Este cliente fue agregado exitosamente", title = "Agregado" }, state = 200 });
+                        db.UserInRole.Add(new UserInRole() { RoleName = "User", UserName = UserData.UserName});
+                        db.SaveChanges();
+                        return Json(new { DataResult = new { icon = "success", text = "This user was successfully created", title = "Agregado" }, state = 200 });
                     }
 
                     
                 }
                 catch(Exception e) {
-                    //ViewBag.Error = e.ToString();
-                    //return View();
-                    return Json(new { DataResult = new { icon = "error", text = "Algo anduvo mal creando el usuario, favor revisar los datos y tratar nuevamente", title = "Oops!" } });
+                    return Json(new { DataResult = new { icon = "error", text = "Somenthing went wrong went trying to create this user, please try again", title = "Oops!" } });
                 }
             }
             else {
-                //ViewBag.Error = "Something Went Wrong!!!";
-                //return View();
-                return Json(new { DataResult = new { icon = "error", text = "Algo anduvo mal creando el usuario, favor revisar los datos y tratar nuevamente", title = "Oops!" } });
+                return Json(new { DataResult = new { icon = "error", text = "Somenthing went wrong went trying to create this user, maybe some data is wrong", title = "Oops!" } });
             }
             
         }
 
+
+
+
+        [HttpGet]
+        public IActionResult Login(string ReturnUrl = "") {
+
+            return Redirect("~/register.html");
+        }
 
         [HttpPost]
         public async Task<IActionResult> Login(TdUser UserLoginForm)
@@ -108,7 +114,7 @@ namespace APIDashboard.Controllers
             }
         }
 
-        [HttpGet]
+        //[HttpGet]
         public async Task<IActionResult> LogOff()
         {
 
@@ -116,7 +122,7 @@ namespace APIDashboard.Controllers
             {
                 await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
-                return RedirectToAction("Login", "Account");
+                return Redirect("~/register.html");
             }
             catch (Exception ex)
             {

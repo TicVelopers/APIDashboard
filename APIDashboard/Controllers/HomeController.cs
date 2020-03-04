@@ -10,7 +10,8 @@ using APIDashboard.Attributes;
 
 namespace APIDashboard.Controllers
 {
-    //[RolesAuth(Roles = "Admin")]
+    
+    [RolesAuth("Admin","User")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

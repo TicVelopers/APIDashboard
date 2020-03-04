@@ -13,6 +13,7 @@ namespace APIDashboard.Controllers
     [ApiController]
     public class FuelsController : ControllerBase
     {
+      
         private readonly DBAPIFUELSContext _context;
 
         public FuelsController(DBAPIFUELSContext context)
@@ -20,26 +21,19 @@ namespace APIDashboard.Controllers
             _context = context;
         }
 
-        // GET: api/Fuels/5
-        
-        public IActionResult Get(string fuelname="",DateTime date=default,DateTime datefrom = default, DateTime dateto = default)
+        [HttpGet]
+        [Route("GetFuels")]
+        public IActionResult find(string fuelname = "", DateTime? date = null, DateTime? datefrom  = null, DateTime? dateto = null )
         {
-
-
-            var tdCombustibles = _context.TdCombustibles.Where(w => w.Combustible == fuelname).ToList();
+            var tdCombustibles = _context.TdCombustibles.Where(w =>
+            (string.IsNullOrEmpty(fuelname) || w.Combustible == fuelname) &&
+            (!date.HasValue || w.FechaSemana.Value == date.Value) &&
+            (!datefrom.HasValue || w.FechaSemana.Value >= datefrom.Value) &&
+            (!dateto.HasValue || w.FechaSemana.Value <= dateto.Value)
+            ).ToList();
 
             return Ok(tdCombustibles);
         }
-
-        
-        //public IActionResult Get(string fuelname, DateTime date)
-        //{
-
-
-        //    var tdCombustibles = _context.TdCombustibles.Where(w => w.Combustible == fuelname && w.FechaSemana == date).ToList();
-
-        //    return Ok(tdCombustibles);
-        //}
 
 
     }

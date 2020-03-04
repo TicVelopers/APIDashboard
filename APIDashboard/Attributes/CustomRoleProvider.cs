@@ -1,24 +1,24 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Configuration;
+﻿using System.Linq;
+using APIDashboard.Models;
 
 namespace APIDashboard.Attributes
 {
-    public class CustomRoleProvider : IServiceProvider
+    public class CustomRoleProvider 
     {
-        public object GetService(Type serviceType)
+        
+        private readonly DBAPIFUELSContext db;
+        public CustomRoleProvider(DBAPIFUELSContext _db)
         {
-            throw new NotImplementedException();
+            db = _db;
+            
         }
-
         public bool IsUserInRole(string User, string Role) {
-            throw new NotImplementedException();
+
+
+            var result = db.UserInRole.Where(w => w.UserName == User && w.RoleName == Role).Any();
+
+            return result;
+            //throw new NotImplementedException();
         }
     }
 }

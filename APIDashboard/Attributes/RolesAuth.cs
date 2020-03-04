@@ -1,35 +1,54 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace APIDashboard.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class RolesAuth : AuthorizeAttribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    public class RolesAuth : AuthorizeAttribute, IAuthorizationFilter
     {
-        private CustomRoleProvider RProvider = new CustomRoleProvider();
+        
+
         public string[] AuthRoles;
         public RolesAuth(params string[] Roles)
         {
             this.AuthRoles = Roles;
         }
-        protected bool AuthorizeCore(HttpContext httpContext)
-        {
-            bool IsInRole = false;
 
+       
+
+        public void OnAuthorization(AuthorizationFilterContext context)
+        {
+
+            var user = context.HttpContext.User;
+
+            if (!user.Identity.IsAuthenticated)
+            {
+                
+                return;
+            }
+
+            //var someService = context.HttpContext.RequestServices.GetRequiredService<DBAPIFUELSContext>();
+            //someService.UserInRole.Where(w=>w.RoleName == getRoles && w.UserName == context.HttpContext.User.Identity.Name).Any()
+            var someServices = context.HttpContext.RequestServices.GetRequiredService<CustomRoleProvider>();
+            bool IsInRole = false;
             foreach (var getRoles in AuthRoles)
             {
-                if (RProvider.IsUserInRole(httpContext.User.Identity.Name.ToString(), getRoles))
+                var IsUserInRole = someServices.IsUserInRole(context.HttpContext.User.Identity.Name, getRoles);
+                if (IsUserInRole)
                 {
-                    IsInRole = true;
+                     IsInRole = true;
                 }
 
             }
 
-            return IsInRole;
+            if (!IsInRole) {
+                context.Result = new StatusCodeResult((int)System.Net.HttpStatusCode.Forbidden);
+                return;
+            }
+           
         }
     }
 }
