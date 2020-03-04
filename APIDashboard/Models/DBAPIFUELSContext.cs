@@ -15,21 +15,86 @@ namespace APIDashboard.Models
         {
         }
 
+        public virtual DbSet<Municipios> Municipios { get; set; }
+        public virtual DbSet<Provincias> Provincias { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Sectores> Sectores { get; set; }
         public virtual DbSet<TdCombustibles> TdCombustibles { get; set; }
         public virtual DbSet<TdUser> TdUser { get; set; }
         public virtual DbSet<TeamXam> TeamXam { get; set; }
+        public virtual DbSet<UserInRole> UserInRole { get; set; }
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
 //            if (!optionsBuilder.IsConfigured)
 //            {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("workstation id=DBAPIFUELS.mssql.somee.com;packet size=4096;user id=franciscohdd_SQLLogin_2;pwd=dbr4rcsm9r;data source=DBAPIFUELS.mssql.somee.com;persist security info=False;initial catalog=DBAPIFUELS");
+//                optionsBuilder.UseSqlServer("");
 //            }
 //        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Municipios>(entity =>
+            {
+                entity.HasKey(e => e.MunicipioId);
+
+                entity.Property(e => e.MunicipioId)
+                    .HasColumnName("Municipio_id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Municipio)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProvinciaId).HasColumnName("Provincia_id");
+            });
+
+            modelBuilder.Entity<Provincias>(entity =>
+            {
+                entity.HasKey(e => e.ProvinciaId);
+
+                entity.Property(e => e.ProvinciaId)
+                    .HasColumnName("Provincia_id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Provincia)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Roles>(entity =>
+            {
+                entity.ToTable("ROLES");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.RoleName)
+                    .HasColumnName("ROLE_NAME")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("STATUS")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Sectores>(entity =>
+            {
+                entity.HasKey(e => e.SectorId);
+
+                entity.Property(e => e.SectorId)
+                    .HasColumnName("Sector_id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.MunicipioId).HasColumnName("Municipio_id");
+
+                entity.Property(e => e.Sector)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<TdCombustibles>(entity =>
             {
                 entity.ToTable("TD_COMBUSTIBLES");
@@ -138,6 +203,28 @@ namespace APIDashboard.Models
 
                 entity.Property(e => e.Team)
                     .HasColumnName("TEAM")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<UserInRole>(entity =>
+            {
+                entity.ToTable("USER_IN_ROLE");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.RoleName)
+                    .HasColumnName("ROLE_NAME")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("STATUS")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserName)
+                    .HasColumnName("USER_NAME")
                     .HasMaxLength(250)
                     .IsUnicode(false);
             });
