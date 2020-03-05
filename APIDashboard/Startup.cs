@@ -17,6 +17,8 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using APIDashboard.Attributes;
+using AutoMapper;
+using APIDashboard.Services;
 
 namespace APIDashboard
 {
@@ -34,7 +36,8 @@ namespace APIDashboard
         {
             services.AddDbContext<DBAPIFUELSContext>(c=>c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<CustomRoleProvider>();
-            services.AddControllersWithViews().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
+            services.AddScoped<AutoMap>();
+            services.AddControllersWithViews().AddJsonOptions(opts => { opts.JsonSerializerOptions.PropertyNamingPolicy = null; opts.JsonSerializerOptions.Converters.Add(new CustomDateFormat());});
             services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIDashboard.Models;
+using APIDashboard.Services;
+using APIDashboard.Models.ModelsDTO;
 
 namespace APIDashboard.Controllers
 {
@@ -15,10 +17,11 @@ namespace APIDashboard.Controllers
     {
       
         private readonly DBAPIFUELSContext _context;
-
-        public FuelsController(DBAPIFUELSContext context)
+        private readonly AutoMap MapClient;
+        public FuelsController(DBAPIFUELSContext context, AutoMap _MapClient)
         {
             _context = context;
+            MapClient = _MapClient;
         }
 
         [HttpGet]
@@ -32,7 +35,9 @@ namespace APIDashboard.Controllers
             (!dateto.HasValue || w.FechaSemana.Value <= dateto.Value)
             ).ToList();
 
-            return Ok(tdCombustibles);
+            var fuelsDTO = MapClient.MapperConvertList<TdCombustibles, FuelsDTO>(tdCombustibles);
+            
+            return Ok(fuelsDTO);
         }
 
 
