@@ -51,7 +51,8 @@ namespace APIDashboard.Controllers
                     }
                     else {
                         UserData.Status = "A";
-                        
+                        var GeneratedKey = genKey.CreateApiKey();
+                        UserData.ApiKey = GeneratedKey;
                         db.TdUser.Add(UserData);
                         db.SaveChanges();
                         db.UserInRole.Add(new UserInRole() { RoleName = "User", UserName = UserData.UserName});
