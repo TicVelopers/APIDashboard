@@ -17,6 +17,9 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using APIDashboard.Attributes;
+using AutoMapper;
+using APIDashboard.Services;
+using APIDashboard.Hubs;
 
 namespace APIDashboard
 {
@@ -34,14 +37,18 @@ namespace APIDashboard
         {
             services.AddDbContext<DBAPIFUELSContext>(c=>c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<CustomRoleProvider>();
-            services.AddControllersWithViews().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
+            services.AddScoped<AutoMap>();
+            services.AddScoped<APIKeyGenerator>();
+            services.AddControllersWithViews().AddJsonOptions(opts => { opts.JsonSerializerOptions.PropertyNamingPolicy = null; opts.JsonSerializerOptions.Converters.Add(new CustomDateFormat());});
             services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
+            services.AddSignalR();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -67,7 +74,10 @@ namespace APIDashboard
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chatHub");
+            });
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseApiKeyMiddleware();

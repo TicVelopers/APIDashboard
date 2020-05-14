@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using APIDashboard.Models;
+using APIDashboard.Models.ModelsDTO;
+using APIDashboard.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -14,14 +16,19 @@ namespace APIDashboard.Controllers
     public class AccountController : Controller
     {
         private readonly DBAPIFUELSContext db;
-        public AccountController(DBAPIFUELSContext _db)
+        private readonly AutoMap MapClient;
+        private readonly APIKeyGenerator genKey;
+        public AccountController(DBAPIFUELSContext _db, AutoMap _MapClient, APIKeyGenerator _genKey)
         {
             db = _db;
+            MapClient = _MapClient;
+            genKey = _genKey;
         }
         public IActionResult Index(int id)
         {
-            var UserDetails = db.TdUser.Where(w => w.Id == id).FirstOrDefault();
-            return View(UserDetails);
+            var UserDetails = db.TdUser.Where(w => w.UserName == HttpContext.User.Identity.Name).FirstOrDefault();
+            var userDTO = MapClient.MapperConvert<TdUser, UserDTO>(UserDetails);
+            return View(userDTO);
         }
 
         public IActionResult SignUp()
@@ -44,7 +51,8 @@ namespace APIDashboard.Controllers
                     }
                     else {
                         UserData.Status = "A";
-                        
+                        var GeneratedKey = genKey.CreateApiKey();
+                        UserData.ApiKey = GeneratedKey;
                         db.TdUser.Add(UserData);
                         db.SaveChanges();
                         db.UserInRole.Add(new UserInRole() { RoleName = "User", UserName = UserData.UserName});
@@ -130,6 +138,23 @@ namespace APIDashboard.Controllers
                 throw ex;
             }
 
+        }
+
+        [HttpGet]
+        public IActionResult GenerateApiKey() {
+
+            try {
+                var key = genKey.CreateApiKey();
+                var userProfile = db.TdUser.Where(w => w.UserName == HttpContext.User.Identity.Name).FirstOrDefault();
+                userProfile.ApiKey = key;
+                db.Entry(userProfile).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+                return StatusCode(200,userProfile.ApiKey);
+            }
+            catch (Exception ex) {
+                return StatusCode(400,ex);
+            }
+            
         }
 
     }
