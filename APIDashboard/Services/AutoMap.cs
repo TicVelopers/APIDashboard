@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace APIDashboard.Services
 {
-    public class AutoMap
+    public class AutoMap 
     {
+       
+
         public U MapperConvert<T, U>(T DtSource)
         {
 

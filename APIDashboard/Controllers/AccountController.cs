@@ -87,7 +87,7 @@ namespace APIDashboard.Controllers
             if (ModelState.IsValid)
             {
 
-                if (db.TdUser.Where(a => a.UserName == UserLoginForm.UserName && a.UserPass == UserLoginForm.UserPass && a.Status == "A").ToList().Count() > 0)
+                if (db.TdUser.Where(a => a.UserName == UserLoginForm.UserName && a.UserPass == UserLoginForm.UserPass && a.Status == "A").Any())
                 {
                     var DataUser = db.TdUser.Where(w => w.UserName == UserLoginForm.UserName).FirstOrDefault();
                     // Initialization.    
