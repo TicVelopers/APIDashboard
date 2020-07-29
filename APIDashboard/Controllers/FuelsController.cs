@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using APIDashboard.Models;
 using APIDashboard.Services;
 using APIDashboard.Models.ModelsDTO;
+using APIDashboard.Entities.Models;
 
 namespace APIDashboard.Controllers
 {
@@ -16,9 +16,9 @@ namespace APIDashboard.Controllers
     public class FuelsController : ControllerBase
     {
       
-        private readonly DBAPIFUELSContext _context;
+        private readonly DBAPIDASHBOARDContext _context;
         private readonly AutoMap MapClient;
-        public FuelsController(DBAPIFUELSContext context, AutoMap _MapClient)
+        public FuelsController(DBAPIDASHBOARDContext context, AutoMap _MapClient)
         {
             _context = context;
             MapClient = _MapClient;

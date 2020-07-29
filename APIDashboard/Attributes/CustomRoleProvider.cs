@@ -1,13 +1,13 @@
 ﻿using System.Linq;
-using APIDashboard.Models;
+using APIDashboard.Entities.Models;
 
 namespace APIDashboard.Attributes
 {
     public class CustomRoleProvider 
     {
         
-        private readonly DBAPIFUELSContext db;
-        public CustomRoleProvider(DBAPIFUELSContext _db)
+        private readonly DBAPIDASHBOARDContext db;
+        public CustomRoleProvider(DBAPIDASHBOARDContext _db)
         {
             db = _db;
             

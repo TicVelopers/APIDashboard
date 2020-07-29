@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using APIDashboard.Entities.Models;
 using APIDashboard.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +19,7 @@ namespace APIDashboard.Middleware
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, DBAPIFUELSContext db)
+        public async Task Invoke(HttpContext httpContext, DBAPIDASHBOARDContext db)
         {
 
             

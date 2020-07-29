@@ -12,38 +12,38 @@ namespace APIDashboard.Controllers
     [ApiController]
     public class RepDomController : ControllerBase
     {
-        private readonly DBAPIFUELSContext _context;
+        //private readonly DBAPIFUELSContext _context;
 
-        public RepDomController(DBAPIFUELSContext context)
-        {
-            _context = context;
-        }
+        //public RepDomController(DBAPIFUELSContext context)
+        //{
+        //    _context = context;
+        //}
 
-        [HttpGet]
-        [Route("GetProvincias")]
-        public IActionResult Provincias() {
+        //[HttpGet]
+        //[Route("GetProvincias")]
+        //public IActionResult Provincias() {
 
-            var provincias = _context.Provincias.ToList();
-            return Ok(provincias);
-        }
+        //    var provincias = _context.Provincias.ToList();
+        //    return Ok(provincias);
+        //}
         
 
-        [HttpGet]
-        [Route("GetMunicipios/{ProvinciaID}")]
-        public IActionResult Municipios(int ProvinciaID)
-        {
+        //[HttpGet]
+        //[Route("GetMunicipios/{ProvinciaID}")]
+        //public IActionResult Municipios(int ProvinciaID)
+        //{
 
-            var municipios = _context.Municipios.Where(w=>w.ProvinciaId == ProvinciaID).ToList();
-            return Ok(municipios);
-        }
+        //    var municipios = _context.Municipios.Where(w=>w.ProvinciaId == ProvinciaID).ToList();
+        //    return Ok(municipios);
+        //}
 
-        [HttpGet]
-        [Route("GetSectores/{MunicipioID}")]
-        public IActionResult Sectores(int MunicipioID)
-        {
+        //[HttpGet]
+        //[Route("GetSectores/{MunicipioID}")]
+        //public IActionResult Sectores(int MunicipioID)
+        //{
 
-            var sectores = _context.Sectores.Where(w => w.MunicipioId == MunicipioID).ToList();
-            return Ok(sectores);
-        }
+        //    var sectores = _context.Sectores.Where(w => w.MunicipioId == MunicipioID).ToList();
+        //    return Ok(sectores);
+        //}
     }
 }

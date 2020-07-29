@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using APIDashboard.Models;
+using APIDashboard.Entities.Models;
 using APIDashboard.Models.ModelsDTO;
 using APIDashboard.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -15,10 +15,10 @@ namespace APIDashboard.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly DBAPIFUELSContext db;
+        private readonly DBAPIDASHBOARDContext db;
         private readonly AutoMap MapClient;
         private readonly APIKeyGenerator genKey;
-        public AccountController(DBAPIFUELSContext _db, AutoMap _MapClient, APIKeyGenerator _genKey)
+        public AccountController(DBAPIDASHBOARDContext _db, AutoMap _MapClient, APIKeyGenerator _genKey)
         {
             db = _db;
             MapClient = _MapClient;

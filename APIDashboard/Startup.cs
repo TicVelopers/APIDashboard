@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIDashboard.Models;
 using APIDashboard.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +19,7 @@ using APIDashboard.Attributes;
 using AutoMapper;
 using APIDashboard.Services;
 using APIDashboard.Hubs;
+using APIDashboard.Entities.Models;
 
 namespace APIDashboard
 {
@@ -35,14 +35,22 @@ namespace APIDashboard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DBAPIFUELSContext>(c=>c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
+            services.AddDbContext<DBAPIDASHBOARDContext>(c=>c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddScoped<DBAPIDASHBOARDContext>();
+            //services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //services.AddScoped(p => new DBAPIDASHBOARDContext(p.GetService<DbContextOptions<DBAPIDASHBOARDContext>>()));
+            //services.AddDbContext<DBAPIDASHBOARDContext>();
             services.AddScoped<CustomRoleProvider>();
             services.AddScoped<AutoMap>();
             services.AddScoped<APIKeyGenerator>();
+            services.AddScoped<UnitOfWork>();
             services.AddControllersWithViews().AddJsonOptions(opts => { opts.JsonSerializerOptions.PropertyNamingPolicy = null; opts.JsonSerializerOptions.Converters.Add(new CustomDateFormat());});
             services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
+            
             services.AddSignalR();
 
         }
@@ -61,7 +69,7 @@ namespace APIDashboard
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+           
             /*Load the files for Landing Page*/
             app.UseFileServer(new FileServerOptions
             {
@@ -74,15 +82,16 @@ namespace APIDashboard
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/chatHub");
-            });
+            
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseApiKeyMiddleware();
 
-            
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chatHub");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 
